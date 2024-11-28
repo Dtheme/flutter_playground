@@ -25,11 +25,28 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
     }
 
     // 初始化 VideoPlayerController
-    _controller = VideoPlayerController.network(widget.media.playUrl)
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.media.playUrl))
       ..initialize().then((_) {
-        // 确保初始化完成后刷新界面
-        setState(() {});
+        setState(() {}); // 确保初始化完成后刷新界面
       });
+
+    // 监听播放状态变化
+    _controller.addListener(() {
+      final isPlaying = _controller.value.isPlaying;
+      final isEnded = _controller.value.position >= _controller.value.duration;
+
+      if (isPlaying != _isPlaying || isEnded) {
+        setState(() {
+          _isPlaying = isPlaying && !isEnded;
+        });
+
+        // 如果播放结束，重置播放器
+        if (isEnded) {
+          _controller.pause();
+          _controller.seekTo(Duration.zero);
+        }
+      }
+    });
   }
 
   @override
