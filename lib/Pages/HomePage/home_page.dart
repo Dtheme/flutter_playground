@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wefriend_flutter/Pages/Basepages/BaiscPage.dart';
-import 'package:wefriend_flutter/Pages/VideoPage/audio_home_page.dart';
+import 'package:wefriend_flutter/Pages/VideoPage/podcast_home_page.dart';
 import 'package:wefriend_flutter/Pages/VideoPage/video_home_page.dart';
 import 'animate_page.dart';
 import '../DrawerPage/DrawerPage.dart';
@@ -117,7 +117,7 @@ class _HomeTabbarState extends State<HomeTabbar> {
           ),
           ExplorePage(),
           VideoHomePage(),
-          AudioHomePage(),
+          PodcastHomePage(),
         ],
       ),
       drawer: _tabCurrentIndex == 0 ? const DrawerPage() : null,

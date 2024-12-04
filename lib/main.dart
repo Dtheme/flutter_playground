@@ -1,12 +1,9 @@
-import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wefriend_flutter/Pages/HomePage/home_page.dart';
 import 'Pages/HomePage/color_page.dart';
 import "Util/GlobalService.dart";
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_nb_net/flutter_net.dart';
 
  

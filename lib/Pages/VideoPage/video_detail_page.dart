@@ -5,7 +5,7 @@ import 'package:wefriend_flutter/Pages/VideoPage/media_model.dart';
 class VideoDetailPage extends StatefulWidget {
   final MediaModel media;
 
-  const VideoDetailPage({required this.media, Key? key}) : super(key: key);
+  const VideoDetailPage({required this.media, super.key});
 
   @override
   _VideoDetailPageState createState() => _VideoDetailPageState();

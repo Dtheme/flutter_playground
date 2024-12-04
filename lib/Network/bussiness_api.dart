@@ -1,14 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_nb_net/flutter_net.dart';
 import '../Pages/VideoPage/media_model.dart';
 import '/Pages/HomePage/art_work.dart';
 import 'package:wefriend_flutter/Util/global.dart';
 import 'BannerModel.dart';
-import 'CollectModel.dart';
-import 'UserWrapperModel.dart';
-import 'UserModel.dart';
-import 'my_http_decoder.dart';
 import '/Network/request_url_const.dart';
+import '/Util/XmlToJsonConverter.dart';
+import '../Pages/VideoPage/podcast_episode.dart';
 
 /// Banner 请求示例
 void requestGet() async {
@@ -19,7 +18,7 @@ void requestGet() async {
     logger.t("失败了：msg=$msg/code=$code");
   });
 }
-
+ 
 /// Banner 请求示例，完整的泛型
 void requestGet2() async {
   var appResponse = await get<BannerModel, BannerModel>(
@@ -107,7 +106,9 @@ Future<void> requestArtworks2({
 
 Future<void> fetchArtworkDetail({
   required String apiLink, // API 链接，从外部传入
-  required Function(Map<String, dynamic> artworkDetail, Map<String, dynamic> licenseInfo) onSuccess,
+  required Function(
+          Map<String, dynamic> artworkDetail, Map<String, dynamic> licenseInfo)
+      onSuccess,
   required Function(String errorMessage) onFailure,
 }) async {
   try {
@@ -147,14 +148,16 @@ Future<void> requestSelectedTabs({
   required Function(List<MediaModel> mediaList) onSuccess,
   required Function(String errorMessage, int errorCode) onFailure,
 }) async {
-  const String selectedTabsUrl = "http://baobab.kaiyanapp.com/api/v4/tabs/selected";
+  const String selectedTabsUrl =
+      "http://baobab.kaiyanapp.com/api/v4/tabs/selected";
 
-  var appResponse = await Dio().get<Map<String, dynamic>>(selectedTabsUrl, options: Options(
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-  ));
+  var appResponse = await Dio().get<Map<String, dynamic>>(selectedTabsUrl,
+      options: Options(
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      ));
 
   try {
     // 检查响应数据
@@ -180,7 +183,97 @@ Future<void> requestSelectedTabs({
   }
 }
 
+/// 请求 iTunes 播客数据
+Future<void> requestPodcasts({
+  required String keyword,
+  required Function(List<dynamic> searchResults) onSuccess,
+  required Function(String errorMessage) onFailure,
+}) async {
+  if (keyword.isEmpty) {
+    onFailure("关键词不能为空");
+    return;
+  }
 
+  final String searchUrl = "https://itunes.apple.com/search?term=${Uri.encodeComponent(keyword)}&media=podcast";
 
+  try {
+    // 使用封装的 get 方法请求数据
+    var appResponse = await get<dynamic, dynamic>(
+      searchUrl,
+    );
 
+    // 处理响应
+    appResponse.when(
+      success: (response) {
+        try {
+          // 如果响应是字符串，尝试将其解析为 JSON
+          if (response is String) {
+            final Map<String, dynamic> jsonResponse = json.decode(response);
+            if (jsonResponse.containsKey('results') && jsonResponse['results'] is List) {
+              onSuccess(jsonResponse['results']);
+            } else {
+              onFailure("响应中缺少 'results' 字段或数据格式不正确");
+            }
+          } else if (response is Map<String, dynamic>) {
+            // 如果响应已经是 Map 类型，直接解析
+            if (response.containsKey('results') && response['results'] is List) {
+              onSuccess(response['results']);
+            } else {
+              onFailure("响应中缺少 'results' 字段或数据格式不正确");
+            }
+          } else {
+            onFailure("未知的响应类型：${response.runtimeType}");
+          }
+        } catch (e) {
+          onFailure("数据解析失败：$e");
+        }
+      },
+      failure: (String msg, int code) {
+        onFailure("请求失败：$msg，状态码：$code");
+      },
+    );
+  } catch (e) {
+    onFailure("请求发生异常：$e");
+  }
+}
+// todo：未完成 请求播客详情
+Future<void> fetchPodcastDetails2({
+  required String podcastDetailUrl,
+  required Function(List<PodcastEpisode> episodes) onSuccess,
+  required Function(String errorMessage, int errorCode) onFailure,
+}) async {
+  try {
+    var appResponse = await get<String, String>(
+      podcastDetailUrl,
+      options: Options(
+        headers: {
+          'Content-Type': 'application/xml',
+          'Accept': 'application/xml',
+        },
+      ),
+    );
 
+    appResponse.when(
+      success: (String responseBody) {
+        final jsonData = XmlToJsonConverter.convert(responseBody);
+        final episodes = _parseEpisodes(jsonData);
+        onSuccess(episodes);
+      },
+      failure: (String msg, int code) {
+        onFailure("请求失败：$msg", code);
+      },
+    );
+  } catch (e) {
+    onFailure("请求发生异常：$e", 500);
+  }
+}
+
+List<PodcastEpisode> _parseEpisodes(Map<String, dynamic> data) {
+  final items = data['channel']?['item'];
+  if (items is List) {
+    return items.map<PodcastEpisode>((item) {
+      return PodcastEpisode.fromJson(item);
+    }).toList();
+  }
+  return [];
+}

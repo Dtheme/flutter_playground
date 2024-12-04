@@ -4,6 +4,8 @@ import '/Network/bussiness_api.dart';
 import 'media_item.dart';
 
 class VideoHomePage extends StatefulWidget {
+  const VideoHomePage({super.key});
+
   @override
   _VideoHomePageState createState() => _VideoHomePageState();
 }
@@ -27,16 +29,20 @@ class _VideoHomePageState extends State<VideoHomePage> {
 
     requestSelectedTabs(
       onSuccess: (List<MediaModel> mediaList) {
-        setState(() {
-          _mediaList = mediaList;
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _mediaList = mediaList;
+            _isLoading = false;
+          });
+        }
       },
       onFailure: (String errorMessage, int errorCode) {
-        setState(() {
-          _errorMessage = "$errorMessage (状态码: $errorCode)";
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _errorMessage = "$errorMessage (状态码: $errorCode)";
+            _isLoading = false;
+          });
+        }
       },
     );
   }
@@ -44,10 +50,6 @@ class _VideoHomePageState extends State<VideoHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: 
-      // AppBar(
-        // title: const Text('每日视频'),
-      // ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage != null

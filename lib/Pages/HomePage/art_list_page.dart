@@ -6,7 +6,6 @@ import 'package:wefriend_flutter/Pages/HomePage/art_detail_page.dart';
 import 'package:wefriend_flutter/Pages/HomePage/art_row_item.dart';
 import 'package:wefriend_flutter/Pages/HomePage/image_viewer.dart';
 import 'package:wefriend_flutter/Pages/HomePage/art_work.dart';
-import 'package:wefriend_flutter/Util/global.dart';
 import 'waterfall_detail_page.dart';
 import 'package:wefriend_flutter/Network/bussiness_api.dart';
 

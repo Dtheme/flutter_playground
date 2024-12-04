@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '/model/post.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_pretty_dio_logger/flutter_pretty_dio_logger.dart';
 import '/Network/RequestManager.dart';
 
 class listViewPage extends StatelessWidget {

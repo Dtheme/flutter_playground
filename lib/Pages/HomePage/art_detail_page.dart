@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '/Network/bussiness_api.dart';
 import 'image_viewer.dart'; // 导入 ImageViewer 文件
@@ -150,24 +149,24 @@ class _ArtDetailPageState extends State<ArtDetailPage> {
                                   ),
                                 ),
                                 const SizedBox(height: 20),
-                                Html(
-                                  data: artworkDetail!['description'] ??
-                                      '<p>无描述信息</p>',
-                                  style: {
-                                    "p": Style(
-                                      fontSize: FontSize(16.0),
-                                      lineHeight: const LineHeight(1.5),
-                                      color: Colors.white, // 设置段落文字为白色
-                                    ),
-                                    "a": Style(
-                                      color: Colors.blueAccent, // 设置链接文字为蓝色
-                                      textDecoration: TextDecoration.underline,
-                                    ),
-                                  },
-                                  onAnchorTap: (url, attributes, element) {
-                                    _launchUrl(url ?? "");
-                                  },
-                                ),
+                                // Html(
+                                //   data: artworkDetail!['description'] ??
+                                //       '<p>无描述信息</p>',
+                                //   style: {
+                                //     "p": Style(
+                                //       fontSize: FontSize(16.0),
+                                //       lineHeight: const LineHeight(1.5),
+                                //       color: Colors.white, // 设置段落文字为白色
+                                //     ),
+                                //     "a": Style(
+                                //       color: Colors.blueAccent, // 设置链接文字为蓝色
+                                //       textDecoration: TextDecoration.underline,
+                                //     ),
+                                //   },
+                                //   onAnchorTap: (url, attributes, element) {
+                                //     _launchUrl(url ?? "");
+                                //   },
+                                // ),
                                 const SizedBox(height: 20),
                                 if (licenseInfo != null) ...[
                                   const Divider(),

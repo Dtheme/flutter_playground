@@ -5,7 +5,7 @@ import 'video_detail_page.dart';
 class MediaItem extends StatelessWidget {
   final MediaModel media;
 
-  const MediaItem({Key? key, required this.media}) : super(key: key);
+  const MediaItem({super.key, required this.media});
 
   @override
   Widget build(BuildContext context) {
