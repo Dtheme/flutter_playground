@@ -1,5 +1,6 @@
 # flutter_playground
-## **just 4 fun**
+
+**just 4 fun**
 
 这是一个用于学习谷歌跨平台框架 Flutter 的仓库。
 
