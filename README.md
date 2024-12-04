@@ -1,10 +1,6 @@
 # flutter_playground
  just 4 fun
 
-以下是优化后的 README 示例，包含了对使用 API 的感谢部分：
-
----
-
 # Flutter 学习工程
 
 这是一个用于学习和探索 Flutter 框架的开源项目。该项目展示了如何使用 Flutter 构建跨平台的移动应用程序，并集成了多种 Flutter 相关技术和功能模块。
