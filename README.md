@@ -1,6 +1,6 @@
 # flutter_playground
 
-**just 4 fun**
+**Pure dart playground, Completely useless, Just 4 fun.**
 
 这是一个用于学习谷歌跨平台框架 Flutter 的仓库，使用开放api，真·仅学习使用。
 
