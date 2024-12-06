@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_nb_net/flutter_net.dart';
+import 'package:flutter/foundation.dart';
 import '../Pages/VideoPage/media_model.dart';
 import '/Pages/HomePage/art_work.dart';
 import 'package:wefriend_flutter/Util/global.dart';
@@ -8,6 +9,9 @@ import 'BannerModel.dart';
 import '/Network/request_url_const.dart';
 import '/Util/XmlToJsonConverter.dart';
 import '../Pages/VideoPage/podcast_episode.dart';
+import '../Models/administrative_division.dart';
+import 'package:flutter/services.dart';
+import '../Pages/ComplexListPage/im_message.dart';
 
 /// Banner 请求示例
 void requestGet() async {
@@ -18,7 +22,7 @@ void requestGet() async {
     logger.t("失败了：msg=$msg/code=$code");
   });
 }
- 
+
 /// Banner 请求示例，完整的泛型
 void requestGet2() async {
   var appResponse = await get<BannerModel, BannerModel>(
@@ -80,7 +84,7 @@ Future<void> requestArtworks2({
   try {
     var appResponse = await get<Map<String, dynamic>, Map<String, dynamic>>(
       artWorkListUrl,
-      decodeType: {}, // 指定返回类型为 Map<String, dynamic>
+      decodeType: {}, // 指定返回型为 Map<String, dynamic>
     );
 
     appResponse.when(
@@ -116,7 +120,7 @@ Future<void> fetchArtworkDetail({
     var appResponse = await get<Map<String, dynamic>, Map<String, dynamic>>(
       apiLink,
       options: Options(
-        extra: {'baseUrl': GlobalConfig.testBaseUrl}, // 动态设置 Base URL
+        extra: {'baseUrl': GlobalConfig.testBaseUrl}, // 态设置 Base URL
       ),
     );
 
@@ -162,7 +166,7 @@ Future<void> requestSelectedTabs({
   try {
     // 检查响应数据
     if (appResponse.statusCode == 200 && appResponse.data != null) {
-      // 提取 JSON 中的内容部分，例如 "itemList" 是你感兴趣的内容数组
+      // 提取 JSON 的内部分，例如 "itemList" 是你感兴趣的内容数组
       final List<dynamic> items = appResponse.data!['itemList'] ?? [];
 
       // 使用 MediaModel 解析数据
@@ -194,7 +198,8 @@ Future<void> requestPodcasts({
     return;
   }
 
-  final String searchUrl = "https://itunes.apple.com/search?term=${Uri.encodeComponent(keyword)}&media=podcast";
+  final String searchUrl =
+      "https://itunes.apple.com/search?term=${Uri.encodeComponent(keyword)}&media=podcast";
 
   try {
     // 使用封装的 get 方法请求数据
@@ -202,21 +207,23 @@ Future<void> requestPodcasts({
       searchUrl,
     );
 
-    // 处理响应
+    // 处响应
     appResponse.when(
       success: (response) {
         try {
           // 如果响应是字符串，尝试将其解析为 JSON
           if (response is String) {
             final Map<String, dynamic> jsonResponse = json.decode(response);
-            if (jsonResponse.containsKey('results') && jsonResponse['results'] is List) {
+            if (jsonResponse.containsKey('results') &&
+                jsonResponse['results'] is List) {
               onSuccess(jsonResponse['results']);
             } else {
               onFailure("响应中缺少 'results' 字段或数据格式不正确");
             }
           } else if (response is Map<String, dynamic>) {
             // 如果响应已经是 Map 类型，直接解析
-            if (response.containsKey('results') && response['results'] is List) {
+            if (response.containsKey('results') &&
+                response['results'] is List) {
               onSuccess(response['results']);
             } else {
               onFailure("响应中缺少 'results' 字段或数据格式不正确");
@@ -236,7 +243,8 @@ Future<void> requestPodcasts({
     onFailure("请求发生异常：$e");
   }
 }
-// todo：未完成 请求播客详情
+
+// todo：未完 请求播客详情
 Future<void> fetchPodcastDetails2({
   required String podcastDetailUrl,
   required Function(List<PodcastEpisode> episodes) onSuccess,
@@ -276,4 +284,75 @@ List<PodcastEpisode> _parseEpisodes(Map<String, dynamic> data) {
     }).toList();
   }
   return [];
+}
+
+Future<void> fetchAdministrativeDivisions({
+  required Function(List<Area> provinces) onSuccess,
+  required Function(String errorMessage) onFailure,
+}) async {
+  try {
+    final String response = await rootBundle.loadString('lib/Network/Area.json');
+    final List<dynamic> data = json.decode(response);
+    final List<Area> divisions = data
+        .map((item) => Area.fromJson(item))
+        .toList();
+
+    // 打印解析出来的省市数据
+    for (var division in divisions) {
+      // debugPrint('Parsed Province: ${division.name}, Code: ${division.code}');
+    }
+
+    onSuccess(divisions);
+  } catch (e) {
+    onFailure("数据解析失败：$e");
+  }
+}
+
+class BusinessApi {
+  static Future<List<ImMessage>> getMockMessages() async {
+    try {
+      // 读取模拟数据文件
+      final String response = await rootBundle.loadString('lib/Network/chat_mock.json');
+      debugPrint('🌟 [Mock Data] Loading mock data...');
+      
+      final List<dynamic> jsonData = json.decode(response);
+      debugPrint('📝 [Mock Data] Decoded JSON length: ${jsonData.length}');
+      
+      // 将JSON数据转换为ImMessage对象列表
+      final messages = jsonData.map((json) {
+        final message = ImMessage(
+          messageId: json['messageId'] ?? '',
+          timestamp: json['timestamp'] ?? DateTime.now().millisecondsSinceEpoch,
+          userId: json['userId'] ?? '',
+          userType: json['usertype'] ?? (json['userId'] == 'dzw' ? 'owner' : 'friend'),
+          sender: json['userName'] ?? '',
+          content: json['message'] ?? '',
+          type: _parseMessageType(json['messageType'] ?? 'text'),
+        );
+        return message;
+      }).toList();
+      
+      debugPrint('✅ [Mock Data] Total messages loaded: ${messages.length}');
+      return messages;
+    } catch (e) {
+      debugPrint('❌ [Mock Data] Error loading mock messages: $e');
+      return [];
+    }
+  }
+
+  // 解析消息类型
+  static ImMessageType _parseMessageType(String type) {
+    switch (type.toLowerCase()) {
+      case 'text':
+        return ImMessageType.text;
+      case 'image':
+        return ImMessageType.image;
+      case 'audio':
+        return ImMessageType.audio;
+      case 'video':
+        return ImMessageType.video;
+      default:
+        return ImMessageType.text;
+    }
+  }
 }

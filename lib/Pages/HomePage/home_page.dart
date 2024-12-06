@@ -5,11 +5,10 @@ import 'package:wefriend_flutter/Pages/VideoPage/video_home_page.dart';
 import 'animate_page.dart';
 import '../DrawerPage/DrawerPage.dart';
 import '../DrawerPage/layoutDemo.dart';
-import 'art_list_page.dart';
 import '../ExplorePage/ExplorePage.dart';
 import '../ExtraPage/RequestPage.dart';
 import 'particle_page.dart';
-
+import 'package:wefriend_flutter/Pages/ComplexListPage/complex_list_page.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -51,7 +50,7 @@ class _HomeTabbarState extends State<HomeTabbar> {
     final List<Widget> homeBarViewChildren = [
       LayoutDemo(),
       BasicPage(),
-      DetailPage(),
+      ComplexListPage(),
       AnimatePage(),
       ParticlePage(),
     ];

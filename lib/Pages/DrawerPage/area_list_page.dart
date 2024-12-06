@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'dart:math';
 import 'package:wefriend_flutter/Pages/DrawerPage/administrative_division_controller.dart';
 
-class DebugPage extends StatelessWidget {
+class AreaListPage extends StatelessWidget {
   final AdministrativeDivisionController controller = Get.put(AdministrativeDivisionController());
 
-  DebugPage({super.key});
+  AreaListPage({super.key});
 
   Color _generateRandomColor() {
     final Random random = Random();
@@ -87,4 +87,4 @@ class DebugPage extends StatelessWidget {
       }),
     );
   }
-}
+} 

@@ -10,13 +10,13 @@ class PodcastEpisodeItem extends StatelessWidget {
   final bool isExpanded;
 
   const PodcastEpisodeItem({
-    Key? key,
+    super.key,
     required this.episode,
     required this.onPlay,
     required this.onExpand,
     this.isPlaying = false,
     this.isExpanded = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

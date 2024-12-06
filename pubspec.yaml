@@ -58,6 +58,9 @@ dependencies:
   dio: any
   video_player: ^2.5.0
   just_audio: ^0.9.42
+  record: ^5.2.0
+  permission_handler: ^11.3.0
+  path_provider: ^2.1.2
 
 dependency_overrides:
   dio: ^5.1.2
@@ -82,9 +85,14 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - lib/Network/Area.json
+    - lib/Network/chat_mock.json
+    - lib/data_resource/friend_h.jpg
+    - lib/data_resource/owner_h.jpg
+    - lib/data_resource/image_placeholder.jpg
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

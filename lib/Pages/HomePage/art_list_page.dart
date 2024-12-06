@@ -9,14 +9,14 @@ import 'package:wefriend_flutter/Pages/HomePage/art_work.dart';
 import 'waterfall_detail_page.dart';
 import 'package:wefriend_flutter/Network/bussiness_api.dart';
 
-class DetailPage extends StatefulWidget {
-  const DetailPage({super.key});
+class ArtListPage extends StatefulWidget {
+  const ArtListPage({super.key});
 
   @override
-  _DetailPageState createState() => _DetailPageState();
+  _ArtListPageState createState() => _ArtListPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _ArtListPageState extends State<ArtListPage> {
   final Dio dio = RequestManager.getInstance();
   final Logger logger = Logger();
   List<Artwork> artworks = [];
@@ -105,7 +105,7 @@ class _DetailPageState extends State<DetailPage> {
                             builder: (context) => ArtDetailPage(
                               pageTitle: artwork.artistTitle ?? '展览详情',
                               apiLink: artwork.apiLink ?? '',
-                              artImageId: artwork.imageId?? '',
+                              artImageId: artwork.imageId ?? '',
                             ),
                           ),
                         );

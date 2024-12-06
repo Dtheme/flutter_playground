@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'LayoutDemoPage.dart';
 import 'BloCDemoPage.dart';
 import 'SettingsPage.dart';
-import 'DebugPage.dart';
 
 class DrawerPage extends StatelessWidget {
   const DrawerPage({super.key});
@@ -59,25 +57,7 @@ class DrawerPage extends StatelessWidget {
             ),
             ListTile(
               title: const Text(
-                'Layout',
-                textAlign: TextAlign.right,
-              ),
-              trailing: Icon(
-                Icons.message,
-                color: Colors.blue[200],
-                size: 22.0,
-              ),
-              onTap: () => {
-                Navigator.pop(context),
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LayoutDemoPage())),
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'BloC',
+                'BloC测试',
                 textAlign: TextAlign.right,
               ),
               trailing: Icon(
@@ -93,7 +73,7 @@ class DrawerPage extends StatelessWidget {
             ),
             ListTile(
               title: const Text(
-                'Settings',
+                '设置',
                 textAlign: TextAlign.right,
               ),
               trailing: Icon(
@@ -109,22 +89,6 @@ class DrawerPage extends StatelessWidget {
                         builder: (context) => const SettingsPage())),
               },
             ),
-            ListTile(
-              title: const Text(
-                '[Debug]',
-                textAlign: TextAlign.right,
-              ),
-              trailing: Icon(
-                Icons.flip_rounded,
-                color: Colors.blue[200],
-                size: 22.0,
-              ),
-              onTap: () => {
-                Navigator.pop(context),
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const DebugPage())),
-              },
-            )
           ],
         ),
       ),

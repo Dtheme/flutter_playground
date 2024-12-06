@@ -1,0 +1,362 @@
+[
+  {
+    "messageId": "3fcc99fa53f94612a4238dfa15901213",
+    "timestamp": 1733302678,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "最近我在用ChatGPT做一些代码生成，你试过这个工具吗？",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "672ba2dff7ba4f0eb09e0fcbbecd65bf",
+    "timestamp": 1733313164,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "是的，我最近也用过，觉得在处理自然语言和生成代码方面都挺强的。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "2c40b6c7d24540f0b92c25a1975f090f",
+    "timestamp": 1733315198,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "你觉得它生成的代码质量怎么样？有没有遇到什么问题？",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "8565efc6e2e04d54af5da46d852010a5",
+    "timestamp": 1733315766,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "整体来说还不错，但有时候会生成一些不完整的代码，需要手动修改。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "88e0d0e229a04873b782ba275f0ecc72",
+    "timestamp": 1733317376,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "嗯，我也发现这一点，特别是当任务很复杂时，生成的代码需要重新调试。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "8b67e919b7134e6791cf986bbd270777",
+    "timestamp": 1733319546,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "对，不过简单的任务，它的生成速度和准确性还是非常高的。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "a43d7a8136104fa2b14ff4bad23c63d8",
+    "timestamp": 1733320155,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "你平时都用它来解决什么问题？",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "61b44c9d08864b3eb4e921c0ce42d4c9",
+    "timestamp": 1733321335,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "主要用来生成一些模板代码或者初步的逻辑框架，你呢？",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "efbdd6175ebc434c93298e30a14dfe82",
+    "timestamp": 1733325556,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "我一般用它来做代码优化和一些重复性工作的处理。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "d4d261d741f54cfdb82eaef52f368f18",
+    "timestamp": 1733333910,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "最近有用ChatGPT写文档吗？我觉得这个功能也挺实用的。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "1793e3183aae404098952ed54ea63eeb",
+    "timestamp": 1733336325,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "是的，写文档、生成注释还有优化表达这块，它的表现确实不错。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "54ac64af17f74d8ba7dafae44ad2eda0",
+    "timestamp": 1733338245,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "不过它在中文文档生成时偶尔会有些翻译腔，得稍微调整一下。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "10ae135ca8234026bff27034337f01a7",
+    "timestamp": 1733338614,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "对，这可能和它的训练数据有关吧。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "da2df2d9ad2f4b9bbe37ef13cf0b35ce",
+    "timestamp": 1733339613,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "你觉得未来它能完全替代程序员的一些工作吗？",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "760e078ed50f46369d23102ca1985dd0",
+    "timestamp": 1733340634,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "我觉得短期内不会，毕竟它目前还是依赖于我们给出明确的指令。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "7dd2e99b88eb486aba92d4408625a746",
+    "timestamp": 1733340993,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "没错，特别是涉及到业务逻辑或者系统架构设计，它还没办法做到。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "9202be33f4bb4d2b9d2e3b40a493f49e",
+    "timestamp": 1733343671,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "但它确实可以帮助我们提高效率，节省不少时间。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "084326ae412d4cbfa2242f94dada73fc",
+    "timestamp": 1733346284,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "这倒是真的，尤其是在处理重复任务时，效果很明显。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "8a4f5443631a495da649cd1cc6030f22",
+    "timestamp": 1733352127,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "听说最近有新的版本发布了，你试了吗？",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "9c0de90bc59845b0979f6cdd44444b0e",
+    "timestamp": 1733354302,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "还没试，不过我听说新版本在推理能力和知识更新上有不少提升。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "dfc2a5f889d942c8b1bf885957537bc3",
+    "timestamp": 1733355495,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "对，我也看到了一些介绍，好像还加入了更多实时数据的能力。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "0079ff4bf9df45bd97bc3692047eb36b",
+    "timestamp": 1733360347,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "是的，这可能会让它在实际应用场景中更强大。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "1bc677be7b9842699f16a913721eaa4f",
+    "timestamp": 1733364371,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "对了，你觉得它在逻辑推理方面有没有进步？",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "7aa83caeaec24c1ca9a586eb657df972",
+    "timestamp": 1733365905,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "有一些进步，但复杂逻辑下还是会犯错，需要我们去验证。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "bf4a150c95f4428b9f61fb298e1acb83",
+    "timestamp": 1733365957,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "这倒是，如果能结合专业领域的知识库，效果可能会更好。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "e96bebed1ed74516982c15ccf1825098",
+    "timestamp": 1733366025,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "你有没有关注过它在教育领域的应用？",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "6ca6da274ba8411d9f7e3bbdad8ccb5f",
+    "timestamp": 1733369018,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "有看到一些案例，比如帮助学生解答问题和生成学习资料。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "9204fc73212a428da4982a30ecc8819f",
+    "timestamp": 1733375222,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "对，这方面确实很有潜力，能大幅减轻教师的工作量。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "5b21442e464e4d99b12548eb84f66dda",
+    "timestamp": 1733375991,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "嗯，不过在教育场景中，还是要注意引导学生避免完全依赖它。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "8dab4592315e4f929a6f4871aa7b5c9c",
+    "timestamp": 1733379454,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "同意，毕竟学习的关键还是要理解背后的逻辑和知识。",
+    "messageType": "text",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "bce145e217464cbc9404ea08f7673c06",
+    "timestamp": 1733380450,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "总体来说，ChatGPT算是一个非常有潜力的工具，未来的发展让人期待。",
+    "messageType": "text",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "a1f3c2d445a843dab8a5e6f64e7d1c21",
+    "timestamp": 1733381250,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "https://example.com/audio/message1.mp3",
+    "messageType": "audio",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "d9f3c123456f4a1baf7c9e5f73d2b4d9",
+    "timestamp": 1733381350,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "https://example.com/video/message2.mp4",
+    "messageType": "video",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "b6f7d5123c4a4e2aaf8c6d4f7e1b5d8a",
+    "timestamp": 1733381450,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "https://img1.baidu.com/it/u=44722796,693385155&fm=253&fmt=auto&app=138&f=JPEG?w=1025&h=577",
+    "messageType": "image",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "b6f7d5123c4a4e2aaf8c6d4f7e1b5d8a",
+    "timestamp": 1733381451,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "https://img0.baidu.com/it/u=3399918254,1594953814&fm=253&fmt=auto&app=120&f=JPEG?w=1423&h=800",
+    "messageType": "image",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "b6f7d5123c4a4e2aaf8c6d4f7e1b5d8a",
+    "timestamp": 1733381452,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "https://img2.baidu.com/it/u=367155203,895147107&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=1082",
+    "messageType": "image",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "b6f7d5123c4a4e2aaf8c6d4f7e1b5d8a",
+    "timestamp": 1733381453,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "https://img2.baidu.com/it/u=2779158846,3076490132&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=1731",
+    "messageType": "image",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "f8a1c2d3b5e4a6f9a7c8b1d4e5f6g7h8",
+    "timestamp": 1733381550,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "https://example.com/audio/message4.wav",
+    "messageType": "audio",
+    "usertype": "friend"
+  },
+  {
+    "messageId": "a2b3c4d5e6f7g8h9i1j2k3l4m5n6o7p8",
+    "timestamp": 1733381650,
+    "userId": "dzw",
+    "userName": "我",
+    "message": "https://example.com/video/message5.avi",
+    "messageType": "video",
+    "usertype": "owner"
+  },
+  {
+    "messageId": "c3d4e5f6g7h8i9j1k2l3m4n5o6p7q8r9",
+    "timestamp": 1733381750,
+    "userId": "Aaron",
+    "userName": "蜡笔小新",
+    "message": "https://img1.baidu.com/it/u=1012482094,2473687404&fm=253&fmt=auto&app=120&f=JPEG?w=1421&h=800",
+    "messageType": "image",
+    "usertype": "friend"
+  }
+]
