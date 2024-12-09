@@ -3,7 +3,6 @@ import 'package:record/record.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
-import 'im_audio_wave.dart';
 
 class ImAudioRecorder extends StatefulWidget {
   final bool isRecording;

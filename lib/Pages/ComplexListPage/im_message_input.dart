@@ -3,7 +3,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'im_audio_recorder.dart';
-import 'im_audio_player_view.dart';
 import 'im_audio_wave.dart';
 import 'im_audio_preview.dart';
 
