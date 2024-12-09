@@ -1,143 +1,171 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'im_message.dart';
-import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:async';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'dart:math' as math;
 
 class ImComplexController extends GetxController {
   // 消息列表
   final messages = <ImMessage>[].obs;
 
   // 图片相关状态
-  final imageSizes = <String, Rx<Size?>>{}.obs;
-  final imageLoadingStates = <String, RxBool>{}.obs;
-  final imageLoadErrors = <String, RxBool>{}.obs;
-  final calculatedSizes = <String, Rx<Size?>>{}.obs;
+  final imageLoadingStates = <String, RxBool>{};
+  final imageLoadErrors = <String, RxBool>{};
+  final imageSizes = RxMap<String, Rx<Size>>();
+  final calculatedSizes = <String, Size>{};
 
   // 音频相关状态
   final isRecording = false.obs;
   final recordedAudioPath = RxString('');
   final showAudioOptions = false.obs;
-  final currentPlayingAudioId = RxString('');
+  final currentPlayingAudioId = ''.obs;
   final isPlaying = false.obs;
-  final playProgress = 0.0.obs;
+  final recordingProgress = 0.0.obs;
 
   // 输入相关状态
   final isVoiceMode = false.obs;
   final inputText = ''.obs;
 
   // 消息发送状态
-  final messageSendingStates = <String, RxBool>{}.obs;
-  final messageFailedStates = <String, RxBool>{}.obs;
+  final messageSendingStates = <String, RxBool>{};
+  final messageFailedStates = <String, RxBool>{};
 
   // 初始化图片状态
   void initImageState(String messageId) {
-    if (!imageSizes.containsKey(messageId)) {
-      imageSizes[messageId] = Rx<Size?>(null);
-      imageLoadingStates[messageId] = true.obs;
+    if (!imageLoadingStates.containsKey(messageId)) {
+      imageLoadingStates[messageId] = false.obs;
       imageLoadErrors[messageId] = false.obs;
-      calculatedSizes[messageId] = Rx<Size?>(null);
+      imageSizes[messageId] = const Size(200, 150).obs;
     }
+  }
+
+  // 更新图片尺寸
+  void updateImageSize(String messageId, Size size) {
+    if (!imageLoadingStates.containsKey(messageId)) {
+      return;
+    }
+
+    if (size.width <= 0 || size.height <= 0) {
+      imageLoadingStates[messageId]?.value = false;
+      imageLoadErrors[messageId]?.value = true;
+      return;
+    }
+
+    try {
+      final displaySize = _calculateDisplaySize(size);
+      imageSizes[messageId] = displaySize.obs;
+      imageLoadingStates[messageId]?.value = false;
+      imageLoadErrors[messageId]?.value = false;
+    } catch (e) {
+      debugPrint('❌ [Controller] Error updating image size: $e');
+      imageLoadingStates[messageId]?.value = false;
+      imageLoadErrors[messageId]?.value = true;
+    }
+  }
+
+  // 获取图片显示尺寸
+  Size getDisplaySize(String messageId, BuildContext context) {
+    if (imageSizes.containsKey(messageId) && imageSizes[messageId] != null) {
+      return imageSizes[messageId]!.value;
+    }
+    // 默认尺寸
+    return const Size(200, 150);
   }
 
   // 加载图片尺寸
   Future<void> loadImageSize(String messageId, String imagePath) async {
-    initImageState(messageId);
+    if (imageLoadingStates.containsKey(messageId)) return;
+
+    imageLoadingStates[messageId] = true.obs;
+    imageLoadErrors[messageId] = false.obs;
 
     try {
-      if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-        final imageProvider = NetworkImage(imagePath);
-        final imageStream = imageProvider.resolve(ImageConfiguration.empty);
-        final completer = Completer<ui.Image>();
-        final listener = ImageStreamListener(
-          (ImageInfo info, bool _) {
-            completer.complete(info.image);
-          },
-          onError: (dynamic exception, StackTrace? stackTrace) {
-            debugPrint('❌ [ImageBubble] Error loading image: $exception');
-            completer.completeError(exception);
-          },
-        );
-
-        imageStream.addListener(listener);
-        final image = await completer.future;
-        imageSizes[messageId]?.value =
-            Size(image.width.toDouble(), image.height.toDouble());
-        imageLoadErrors[messageId]?.value = false;
-        imageStream.removeListener(listener);
-      } else {
-        final file = File(imagePath);
-        if (!file.existsSync()) {
-          debugPrint('❌ [ImageBubble] Local file not found: $imagePath');
-          imageLoadErrors[messageId]?.value = true;
-          return;
-        }
-        final bytes = await file.readAsBytes();
-        final image = await decodeImageFromList(bytes);
-        imageSizes[messageId]?.value =
-            Size(image.width.toDouble(), image.height.toDouble());
-        imageLoadErrors[messageId]?.value = false;
+      final image = await _loadImage(imagePath);
+      if (image != null) {
+        final size = Size(image.width.toDouble(), image.height.toDouble());
+        updateImageSize(messageId, size);
       }
+      imageLoadingStates[messageId]?.value = false;
     } catch (e) {
-      debugPrint('❌ [ImageBubble] Error getting image size: $e');
+      debugPrint('❌ Error loading image size: $e');
       imageLoadErrors[messageId]?.value = true;
-    } finally {
       imageLoadingStates[messageId]?.value = false;
     }
   }
 
   // 计算图片显示尺寸
-  void calculateDisplaySize(String messageId, BuildContext context) {
-    if (imageSizes[messageId]?.value == null ||
-        calculatedSizes[messageId]?.value != null) return;
+  Size _calculateDisplaySize(Size originalSize) {
+    double width = originalSize.width;
+    double height = originalSize.height;
+    final aspectRatio = width / height;
 
-    final screenWidth = MediaQuery.of(context).size.width;
-    final maxWidth = screenWidth * 0.4;
-    final maxHeight = screenWidth * 0.4;
-    final minSize = 100.0;
+    // 基础尺寸限制
+    const baseMaxWidth = 240.0;
+    const baseMaxHeight = 320.0;
+    const minWidth = 120.0;
+    const minHeight = 120.0;
 
-    final originalWidth = imageSizes[messageId]!.value!.width;
-    final originalHeight = imageSizes[messageId]!.value!.height;
-    final aspectRatio = originalWidth / originalHeight;
-
-    double width, height;
-
+    // 根据图片方向调整尺寸
     if (aspectRatio > 1) {
-      // 横图
-      width = maxWidth;
-      height = width / aspectRatio;
-      if (height < minSize) {
-        height = minSize;
+      // 横向图片：以宽度为基准进行缩放，并限制高度不小于最小高度
+      if (width > baseMaxWidth) {
+        width = baseMaxWidth;
+        height = width / aspectRatio;
+      }
+      // 如果高度小于最小高度，以最小高度为基准重新计算
+      if (height < minHeight) {
+        height = minHeight;
         width = height * aspectRatio;
+        // 如果调整后宽度超过最大宽度，再次调整
+        if (width > baseMaxWidth) {
+          width = baseMaxWidth;
+          height = width / aspectRatio;
+        }
       }
     } else {
-      // 竖图
-      height = maxHeight;
-      width = height * aspectRatio;
-      if (width < minSize) {
-        width = minSize;
+      // 竖向图片：以高度为基准进行缩放
+      if (height > baseMaxHeight) {
+        height = baseMaxHeight;
+        width = height * aspectRatio;
+      }
+      // 对于竖图，额外限制最大宽度
+      if (width > baseMaxWidth * 0.75) {
+        width = baseMaxWidth * 0.75;
         height = width / aspectRatio;
       }
     }
 
-    // 确保不超过最大尺寸
-    if (width > maxWidth) {
-      width = maxWidth;
-      height = width / aspectRatio;
-    }
-    if (height > maxHeight) {
-      height = maxHeight;
-      width = height * aspectRatio;
+    // 处理异常情况
+    if (width.isNaN || height.isNaN || width <= 0 || height <= 0) {
+      width = minWidth;
+      height = minHeight;
     }
 
-    calculatedSizes[messageId]?.value = Size(width, height);
+    return Size(width, height);
   }
 
-  // 获取图片显示尺寸
-  Size getDisplaySize(String messageId, BuildContext context) {
-    calculateDisplaySize(messageId, context);
-    return calculatedSizes[messageId]?.value ?? const Size(150, 150);
+  // 加载图片
+  Future<ui.Image?> _loadImage(String imagePath) async {
+    try {
+      if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+        final response = await http.get(Uri.parse(imagePath));
+        final bytes = response.bodyBytes;
+        final codec = await ui.instantiateImageCodec(bytes);
+        final frame = await codec.getNextFrame();
+        return frame.image;
+      } else {
+        final bytes = await rootBundle.load(imagePath);
+        final codec = await ui.instantiateImageCodec(bytes.buffer.asUint8List());
+        final frame = await codec.getNextFrame();
+        return frame.image;
+      }
+    } catch (e) {
+      debugPrint('❌ Error loading image: $e');
+      return null;
+    }
   }
 
   // 切换语音模式
@@ -179,7 +207,7 @@ class ImComplexController extends GetxController {
     }
     currentPlayingAudioId.value = messageId;
     isPlaying.value = true;
-    playProgress.value = 0.0;
+    recordingProgress.value = 0.0;
   }
 
   // 暂停音频
@@ -192,14 +220,14 @@ class ImComplexController extends GetxController {
     if (currentPlayingAudioId.value.isNotEmpty) {
       currentPlayingAudioId.value = '';
       isPlaying.value = false;
-      playProgress.value = 0.0;
+      recordingProgress.value = 0.0;
     }
   }
 
   // 更新播放进度
   void updatePlayProgress(double progress) {
     if (progress >= 0 && progress <= 1) {
-      playProgress.value = progress;
+      recordingProgress.value = progress;
       if (progress >= 1) {
         stopAudio();
       }
@@ -296,11 +324,39 @@ class ImComplexController extends GetxController {
   void recallMessage(String messageId) {
     final index = messages.indexWhere((msg) => msg.messageId == messageId);
     if (index != -1) {
-      messages[index] = messages[index].copyWith(
+      final originalMessage = messages[index];
+      
+      // 如果是图片消息，先清理相关状态
+      if (originalMessage.type == ImMessageType.image) {
+        imageLoadingStates.remove(messageId);
+        imageLoadErrors.remove(messageId);
+        imageSizes.remove(messageId);
+        calculatedSizes.remove(messageId);
+      }
+
+      // 创建新的撤回消息，保持原始消息的所有属性
+      final newMessage = ImMessage(
+        messageId: originalMessage.messageId,
+        timestamp: originalMessage.timestamp,  // 保持原始时间戳
+        userId: originalMessage.userId,
+        userType: originalMessage.userType,
+        sender: originalMessage.sender,
+        content: originalMessage.content,  // 保持原始内容，但不会显示
+        type: originalMessage.type,  // 保持原始消息类型
         isRecalled: true,
-        content: '此消息已被撤回',
       );
-      update();
+
+      // 更新消息并强制刷新列表
+      messages[index] = newMessage;
+      
+      // 使用 assignAll 来强制刷新列表，确保视图更新
+      final currentMessages = List<ImMessage>.from(messages);
+      messages.assignAll(currentMessages);
+      
+      // 延迟一帧后再次刷新，确保图片状态被正确清理
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        messages.refresh();
+      });
     }
   }
 
@@ -308,9 +364,9 @@ class ImComplexController extends GetxController {
   @override
   void onClose() {
     // 清理图片相关资源
-    imageSizes.clear();
     imageLoadingStates.clear();
     imageLoadErrors.clear();
+    imageSizes.clear();
     calculatedSizes.clear();
 
     // 清理音频相关资源

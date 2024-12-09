@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'im_complex_controller.dart';
 import 'im_message.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class ImMessageMenu extends StatelessWidget {
   final ImMessage message;
@@ -16,6 +20,122 @@ class ImMessageMenu extends StatelessWidget {
     required this.isMe,
   });
 
+  Future<void> _saveImage(String imagePath) async {
+    debugPrint('📸 [MessageMenu] Starting to save image: $imagePath');
+    try {
+      // 1. 检查权限
+      final PermissionState ps = await PhotoManager.requestPermissionExtend();
+      if (!ps.hasAccess) {
+        debugPrint('❌ [MessageMenu] No permission to access gallery');
+        Get.dialog(
+          AlertDialog(
+            title: const Text('需要相册权限'),
+            content: const Text('请在系统设置中允许访问相册，以保存图片到相册中。'),
+            actions: [
+              TextButton(
+                onPressed: () => Get.back(),
+                child: const Text('取消'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                  PhotoManager.openSetting();
+                },
+                child: const Text('去设置'),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
+      late Uint8List imageBytes;
+      
+      // 2. 获取图片数据
+      try {
+        if (imagePath.startsWith('http')) {
+          debugPrint('🌐 [MessageMenu] Loading network image...');
+          final response = await http.get(Uri.parse(imagePath));
+          if (response.statusCode != 200) {
+            throw Exception('Failed to load network image: ${response.statusCode}');
+          }
+          imageBytes = response.bodyBytes;
+        } else if (imagePath.startsWith('lib/')) {
+          debugPrint('📦 [MessageMenu] Loading asset image...');
+          final ByteData data = await rootBundle.load(imagePath);
+          imageBytes = data.buffer.asUint8List();
+        } else {
+          debugPrint('📁 [MessageMenu] Loading local image...');
+          final file = File(imagePath);
+          if (!await file.exists()) {
+            throw Exception('Image file not found');
+          }
+          imageBytes = await file.readAsBytes();
+        }
+        debugPrint('✅ [MessageMenu] Image loaded, size: ${imageBytes.length} bytes');
+
+        // 3. 保存到相册
+        final String title = 'image_${DateTime.now().millisecondsSinceEpoch}';
+        final AssetEntity? result = await PhotoManager.editor.saveImage(
+          imageBytes,
+          title: title,
+          filename: title,
+          relativePath: 'Pictures/WeFriend',
+        );
+
+        if (result != null) {
+          Get.snackbar(
+            '',
+            '',
+            titleText: Container(),
+            messageText: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.check_circle_outline, size: 20, color: Colors.white),
+                  SizedBox(width: 8),
+                  Text(
+                    '已保存到相册',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+            backgroundColor: Colors.black87.withOpacity(0.8),
+            borderRadius: 8,
+            margin: const EdgeInsets.all(16),
+            duration: const Duration(seconds: 1),
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        } else {
+          throw Exception('Failed to save image');
+        }
+      } catch (e) {
+        debugPrint('❌ [MessageMenu] Error handling image: $e');
+        Get.snackbar(
+          '保存失败',
+          '图片处理失败，请重试',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red[100],
+          colorText: Colors.red[900],
+          duration: const Duration(seconds: 2),
+        );
+        return;
+      }
+    } catch (e) {
+      debugPrint('❌ [MessageMenu] Error saving image: $e');
+      Get.snackbar(
+        '保存失败',
+        '请重试',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red[100],
+        colorText: Colors.red[900],
+        duration: const Duration(seconds: 2),
+      );
+    }
+  }
+
   void _showMenu(BuildContext context) {
     final controller = Get.find<ImComplexController>();
     final RenderBox button = context.findRenderObject() as RenderBox;
@@ -23,7 +143,7 @@ class ImMessageMenu extends StatelessWidget {
     final size = button.size;
 
     // 计算菜单位置
-    final menuTop = offset.dy - 15; // 气泡上方距离
+    final menuTop = offset.dy - 15;
     final menuLeft = offset.dx + (size.width / 2) - (isMe ? 120 : 60);
 
     showDialog(
@@ -33,7 +153,7 @@ class ImMessageMenu extends StatelessWidget {
         return Stack(
           children: [
             Positioned(
-              top: menuTop - 36, // 菜单高度 + 箭头高度
+              top: menuTop - 36,
               left: menuLeft,
               child: Material(
                 color: Colors.transparent,
@@ -75,7 +195,34 @@ class ImMessageMenu extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          if (message.type == ImMessageType.text && isMe)
+                          if (message.type == ImMessageType.image)
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                                _saveImage(message.content);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.save_alt_rounded,
+                                        size: 18, color: Colors.white),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      '保存',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          if ((message.type == ImMessageType.text ||
+                                  message.type == ImMessageType.image) &&
+                              isMe)
                             Container(
                               width: 1,
                               height: 20,

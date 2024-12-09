@@ -28,8 +28,14 @@
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>需要使用相机来发送图片视频消息</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>需要使用麦克风权限来录制语音消息</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>需要使用相册权限来保存图片</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>需要使用相册来发送图片消息</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -55,5 +61,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

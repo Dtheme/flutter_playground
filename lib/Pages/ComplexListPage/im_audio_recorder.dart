@@ -7,11 +7,13 @@ import 'dart:io';
 class ImAudioRecorder extends StatefulWidget {
   final bool isRecording;
   final Function(String)? onSendAudio;
+  final Function()? onRecordingStarted;
 
   const ImAudioRecorder({
     super.key,
     required this.isRecording,
     this.onSendAudio,
+    this.onRecordingStarted,
   });
 
   @override
@@ -92,10 +94,6 @@ class _ImAudioRecorderState extends State<ImAudioRecorder> {
       // 4. 开始录音
       debugPrint('🎤 [AudioRecorder] Starting recorder...');
       
-      setState(() {
-        _isRecording = true;
-      });
-
       await _recorder.start(
         const RecordConfig(
           encoder: AudioEncoder.aacLc,
@@ -104,6 +102,12 @@ class _ImAudioRecorderState extends State<ImAudioRecorder> {
         ),
         path: _recordedFilePath!,
       );
+
+      // 5. 录音实际开始后，更新状态并触发回调
+      setState(() {
+        _isRecording = true;
+      });
+      widget.onRecordingStarted?.call();
 
       debugPrint('✅ [AudioRecorder] Recording started successfully');
     } catch (e) {

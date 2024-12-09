@@ -28,6 +28,7 @@ class ImTextMessageBubble extends StatelessWidget {
               Container(
                 width: 40,
                 height: 40,
+                margin: const EdgeInsets.only(right: 8.0, top: 4.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6.0),
                   image: const DecorationImage(
@@ -82,7 +83,7 @@ class ImTextMessageBubble extends StatelessWidget {
                         ],
                       ),
                       child: Text(
-                        message.isRecalled ? '此消息已被撤回' : message.content,
+                        message.isRecalled ? '[此消息已被撤回]' : message.content,
                         style: TextStyle(
                           color: isMe ? Colors.white : Colors.black87,
                           fontSize: 16,

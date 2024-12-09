@@ -18,70 +18,93 @@ class ImAudioMessageBubble extends StatelessWidget {
     return ImMessageMenu(
       message: message,
       isMe: isMe,
-      child: Container(
-        margin: EdgeInsets.only(
-          left: isMe ? 60 : 12,
-          right: isMe ? 12 : 60,
-          bottom: 16,
-        ),
-        child: Column(
-          crossAxisAlignment:
-              isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+        child: Row(
+          mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (!isMe)
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
-                child: Text(
-                  message.sender,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
+              Container(
+                width: 40,
+                height: 40,
+                margin: const EdgeInsets.only(right: 8.0, top: 4.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6.0),
+                  image: const DecorationImage(
+                    image: AssetImage('lib/data_resource/friend_h.jpg'),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-            if (message.isRecalled)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: isMe ? Colors.blue : Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
+            Flexible(
+              child: Column(
+                crossAxisAlignment:
+                    isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                children: [
+                  if (!isMe)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
+                      child: Text(
+                        message.sender,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-                child: const Text(
-                  '此消息已被撤回',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 16,
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: !isMe ? 8.0 : 0,
+                      right: isMe ? 8.0 : 0,
+                    ),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.65,
+                      minWidth: 120.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isMe 
+                          ? Colors.blue[100]
+                          : Colors.grey[200],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(isMe ? 16.0 : 4.0),
+                        topRight: Radius.circular(isMe ? 4.0 : 16.0),
+                        bottomLeft: const Radius.circular(16.0),
+                        bottomRight: const Radius.circular(16.0),
+                      ),
+                    ),
+                    child: message.isRecalled
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14.0, vertical: 10.0),
+                            child: const Text(
+                              '[此消息已被撤回]',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14,
+                              ),
+                            ),
+                          )
+                        : ImAudioPlayerView(
+                            audioPath: message.content,
+                            messageId: message.messageId,
+                            isMe: isMe,
+                          ),
                   ),
-                ),
-              )
-            else
+                ],
+              ),
+            ),
+            if (isMe)
               Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.65,
-                  minWidth: 120.0,
-                ),
+                width: 40,
+                height: 40,
+                margin: const EdgeInsets.only(left: 8.0, top: 4.0),
                 decoration: BoxDecoration(
-                  color: isMe 
-                      ? Colors.blue[100]  // 使用与文字消息相同的背景色
-                      : Colors.grey[200],
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(isMe ? 16.0 : 4.0),
-                    topRight: Radius.circular(isMe ? 4.0 : 16.0),
-                    bottomLeft: const Radius.circular(16.0),
-                    bottomRight: const Radius.circular(16.0),
+                  borderRadius: BorderRadius.circular(6.0),
+                  image: const DecorationImage(
+                    image: AssetImage('lib/data_resource/owner_h.jpg'),
+                    fit: BoxFit.cover,
                   ),
-                ),
-                child: ImAudioPlayerView(
-                  audioPath: message.content,
-                  messageId: message.messageId,
-                  isMe: isMe,
                 ),
               ),
           ],

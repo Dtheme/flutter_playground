@@ -3,6 +3,8 @@ import 'im_message.dart';
 import 'im_text_message_bubble.dart';
 import 'im_audio_message_bubble.dart';
 import 'im_image_message_bubble.dart';
+import 'im_video_message_bubble.dart';
+import 'im_recalled_message_bubble.dart';
 import 'im_message_input.dart';
 import '../../Network/bussiness_api.dart';
 import 'package:get/get.dart';
@@ -77,9 +79,20 @@ class _ImChatUIPageState extends State<ImChatUIPage> {
     _scrollToBottom();
   }
 
+  void _sendImageMessage(String imagePath) {
+    controller.sendImageMessage(imagePath);
+    _scrollToBottom();
+  }
+
   Widget _buildMessageBubble(ImMessage message) {
     final isMe = message.isOwner;
 
+    // 如果消息已被撤回，显示撤回消息气泡
+    if (message.isRecalled) {
+      return ImRecalledMessageBubble(message: message);
+    }
+
+    // 根据消息类型显示不同的气泡
     switch (message.type) {
       case ImMessageType.text:
         return ImTextMessageBubble(
@@ -97,8 +110,7 @@ class _ImChatUIPageState extends State<ImChatUIPage> {
           isMe: isMe,
         );
       case ImMessageType.video:
-        // TODO: 实现视频消息气泡
-        return ImTextMessageBubble(
+        return ImVideoMessageBubble(
           message: message,
           isMe: isMe,
         );
@@ -126,7 +138,7 @@ class _ImChatUIPageState extends State<ImChatUIPage> {
           ),
           ImMessageInput(
             onSendText: _sendTextMessage,
-            onSendAudio: _sendAudioMessage,
+            onSendImage: _sendImageMessage,
           ),
         ],
       ),

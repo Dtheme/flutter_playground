@@ -19,6 +19,31 @@
   - 艺术作品列表：展示艺术作品的缩略图和基本信息。
   - 详情页面：展示艺术作品的详细信息和大图。
 
+- **IM 聊天界面**：实现了一个即时通讯界面。
+  - 多种消息类型：支持文本、图片、语音、视频等多种消息类型。
+  - 消息交互：支持消息的发送、撤回、长按菜单等功能。
+  - 语音消息：支持录音、播放，带有频谱动画效果。
+  - 图片消息：支持图片预览、保存到相册等功能。
+  - 视频消息：支持视频预览和播放。
+  - 消息状态：显示消息的发送状态、撤回状态等。
+  - 用户头像：展示用户头像和昵称。
+
+- **基本动画演示**：展示了 Flutter 动画基础类型。
+  - 隐式动画：使用 AnimatedContainer、AnimatedOpacity 等实现简单过渡。
+  - 显式动画：使用 AnimationController 实现复杂的自定义动画。
+  - Hero 动画：实现图片查看的平滑过渡效果。
+  - 交错动画：实现消息列表加载的波浪动画效果。
+  - 物理动画：使用 SpringSimulation 实现有弹性的滑动效果。
+  - 自定义动画：包括语音录制的波形动画、加载状态动画等。
+
+- **原生交互演示**：展示了 Flutter 与原生平台的交互能力。
+  - 方法通道：通过 MethodChannel 实现 Flutter 调用原生代码。
+  - 事件通道：通过 EventChannel 实现原生向 Flutter 发送事件流。
+  - 消息通道：通过 BasicMessageChannel 实现双向通信。
+  - 平台视图：在 Flutter 中嵌入原生视图组件。
+  - 生命周期：Flutter 页面与原生页面生命周期联动。
+  - 数据共享：Flutter 与原生之间的数据传递和状态同步。
+
 ## 使用的技术
 
 - **Java**：安卓原生页面
@@ -29,13 +54,25 @@
 - **get 框架**：用于状态管理、路由管理等。
 - **多媒体处理**：集成 `just_audio` 和 `video_player` 库，实现音频和视频的播放功能。
 - **UI 组件**：使用 `ListView`、`Card`、`ExpansionTile` 等组件构建响应式 UI。
+- **图片处理**：使用 `photo_manager` 进行图片保存和相册管理。
+- **音频处理**：集成录音和音频播放功能，支持频谱动画显示。
+- **flutter动画系统**：使用 Flutter 的动画系统实现丰富的交互效果。
+  - AnimationController：控制动画的播放和状态。
+  - CurvedAnimation：实现非线性的动画曲线。
+  - Tween：定义动画的起始值和结束值。
+  - CustomPainter：绘制自定义动画效果。
 
 ## 代码结构
 
 - `lib/Pages/VideoPage/`：包含视频和播客相关的页面和组件。
+- `lib/Pages/ComplexListPage/`：包含 IM 聊天界面相关的页面和组件。
 - `lib/Network/`：包含网络请求的封装和 API 管理。
 - `lib/UIKit/`：包含自定义的 UI 组件。
 - `lib/Util/`：包含工具类和辅助功能。
+- `lib/Animation/`：包含各类动画示例和自定义动画组件。
+- `android/app/src/`：Android 原生代码和平台集成。
+- `ios/Runner/`：iOS 原生代码和平台集成。
+- `lib/Platform/`：Flutter 侧的平台通道实现。
 
 ## 如何运行
 

@@ -61,6 +61,8 @@ dependencies:
   record: ^5.2.0
   permission_handler: ^11.3.0
   path_provider: ^2.1.2
+  image_picker: ^1.1.2
+  photo_manager: ^3.6.3
 
 dependency_overrides:
   dio: ^5.1.2
