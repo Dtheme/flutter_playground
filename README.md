@@ -12,7 +12,7 @@
 - 详情展示：展示播客的详细信息，包括标题、描述、封面图等。
 - 音频播放：集成了音频播放功能，用户可以播放和暂停播客音频。
 
-![播客](https://github.com/Dtheme/flutter_playground/tree/main/picturepicture/20241209183211.gif)
+![播客](https://github.com/Dtheme/flutter_playground/tree/main/picture/20241209183211.gif)
 
 ### 开眼每日精选视频
 支持视频的展示和播放。
