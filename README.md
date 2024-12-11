@@ -40,7 +40,7 @@
 - 用户头像：展示用户头像和昵称。
 
 ![IM聊天](https://raw.githubusercontent.com/Dtheme/flutter_playground/main/picture/20241209183010.gif)
-
+![IM聊天](https://raw.githubusercontent.com/Dtheme/flutter_playground/main/picture/20241211103944.gif)
 ### 基本动画演示
 展示了 Flutter 动画基础类型。
 - 隐式动画：使用 AnimatedContainer、AnimatedOpacity 等实现简单过渡。
