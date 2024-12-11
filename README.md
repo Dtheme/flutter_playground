@@ -12,21 +12,21 @@
 - 详情展示：展示播客的详细信息，包括标题、描述、封面图等。
 - 音频播放：集成了音频播放功能，用户可以播放和暂停播客音频。
 
-![播客功能演示](picture/podcast_demo.gif)
+![播客](picture/podcast_demo.gif)
 
 ### 开眼每日精选视频
 支持视频的展示和播放。
 - 视频列表：展示视频的封面、标题和描述。
 - 视频播放：用户可以点击视频项进入播放页面，支持播放控制。
 
-![视频功能演示](picture/video_demo.gif)
+![开眼每日精选](picture/video_demo.gif)
 
 ### 艺术作品展示
 展示艺术作品的列表和详情。
 - 艺术作品列表：展示艺术作品的缩略图和基本信息。
 - 详情页面：展示艺术作品的详细信息和大图。
 
-![艺术作品展示](picture/art_demo.gif)
+![图文列表](picture/art_demo.gif)
 
 ### IM 聊天界面
 实现了一个即时通讯界面。
@@ -38,7 +38,7 @@
 - 消息状态：显示消息的发送状态、撤回状态等。
 - 用户头像：展示用户头像和昵称。
 
-![IM聊天演示](picture/im_demo.gif)
+![IM聊天](picture/im_demo.gif)
 
 ### 基本动画演示
 展示了 Flutter 动画基础类型。
@@ -49,7 +49,7 @@
 - 物理动画：使用 SpringSimulation 实现有弹性的滑动效果。
 - 自定义动画：包括语音录制的波形动画、加载状态动画等。
 
-![动画效果演示](picture/animation_demo.gif)
+![基础动画](picture/animation_demo.gif)
 
 ### 原生交互演示
 展示了 Flutter 与原生平台的交互能力。

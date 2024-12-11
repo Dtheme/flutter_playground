@@ -76,7 +76,7 @@ class ImMessageMenu extends StatelessWidget {
 
         // 3. 保存到相册
         final String title = 'image_${DateTime.now().millisecondsSinceEpoch}';
-        final AssetEntity? result = await PhotoManager.editor.saveImage(
+        final AssetEntity result = await PhotoManager.editor.saveImage(
           imageBytes,
           title: title,
           filename: title,

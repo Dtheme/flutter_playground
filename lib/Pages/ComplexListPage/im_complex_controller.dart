@@ -5,7 +5,6 @@ import 'dart:ui' as ui;
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'dart:math' as math;
 
 class ImComplexController extends GetxController {
   // 消息列表
