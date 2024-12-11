@@ -12,14 +12,14 @@
 - 详情展示：展示播客的详细信息，包括标题、描述、封面图等。
 - 音频播放：集成了音频播放功能，用户可以播放和暂停播客音频。
 
-![播客](https://github.com/Dtheme/flutter_playground/tree/main/picturepicture/podcast_demo.gif)
+![播客](https://github.com/Dtheme/flutter_playground/tree/main/picturepicture/20241209183211.gif)
 
 ### 开眼每日精选视频
 支持视频的展示和播放。
 - 视频列表：展示视频的封面、标题和描述。
 - 视频播放：用户可以点击视频项进入播放页面，支持播放控制。
 
-![开眼每日精选](https://github.com/Dtheme/flutter_playground/tree/main/picture/video_demo.gif)
+![开眼每日精选](https://github.com/Dtheme/flutter_playground/tree/main/picture/20241211102557.gif)
 
 ### 艺术作品展示
 展示艺术作品的列表和详情。
@@ -38,7 +38,7 @@
 - 消息状态：显示消息的发送状态、撤回状态等。
 - 用户头像：展示用户头像和昵称。
 
-![IM聊天](https://github.com/Dtheme/flutter_playground/tree/main/picture/im_demo.gif)
+![IM聊天](https://github.com/Dtheme/flutter_playground/tree/main/picture/20241209183010.gif)
 
 ### 基本动画演示
 展示了 Flutter 动画基础类型。
@@ -49,7 +49,8 @@
 - 物理动画：使用 SpringSimulation 实现有弹性的滑动效果。
 - 自定义动画：包括语音录制的波形动画、加载状态动画等。
 
-![基础动画](https://github.com/Dtheme/flutter_playground/tree/main/picture/animation_demo.gif)
+![基础动画](https://github.com/Dtheme/flutter_playground/tree/main/picture/20241209183106.gif)
+
 
 ### 原生交互演示
 展示了 Flutter 与原生平台的交互能力。
@@ -60,7 +61,6 @@
 - 生命周期：Flutter 页面与原生页面生命周期联动。
 - 数据共享：Flutter 与原生之间的数据传递和状态同步。
 
-![原生交互演示](https://github.com/Dtheme/flutter_playground/tree/main/picture/native_demo.gif)
 
 ## 使用的技术
 
